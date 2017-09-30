@@ -1,8 +1,4 @@
 # reactNativeApp
-following instruction here (somewhat) except for the coapods for google maps
-https://medium.com/@kswanie21/react-native-google-map-with-react-native-maps-572e3d3eee14
-https://stackoverflow.com/questions/11177954/how-do-i-completely-uninstall-node-js-and-reinstall-from-beginning-mac-os-x
-
 Requirements:
 - xcode
 - brew install node
@@ -17,6 +13,9 @@ NOTE: if you get red screen (could not connect) it’s probably because the pack
 
 The following is just for educational purposes
 Instructions to re-create this from scratch
+following instruction here (somewhat) except for the coapods for google maps
+https://medium.com/@kswanie21/react-native-google-map-with-react-native-maps-572e3d3eee14
+
 ```
 npm i -g react-native-cli
 react-native init reactNativeApp
