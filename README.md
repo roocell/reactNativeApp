@@ -7,11 +7,32 @@ Requirements:
 - xcode
 - brew install node
 
+If cloning this repo use this
 ```
-npm i -g react-native-cli
-react-native init reactNative
-cd reactNative
+cd reactNativeApp
+npm install
 react-native run-ios
 ```
+NOTE: if you get red screen (could not connect) it’s probably because the packager is still building. just refresh (cmd-R) when the packager is done
 
-if you get red screen (could not connect) it’s probably because the packager is still building. just refresh (cmd-R) when the packager is done
+The following is just for educational purposes
+Instructions to re-create this from scratch
+```
+npm i -g react-native-cli
+react-native init reactNativeApp
+cd reactNativeApp
+react-native run-ios
+```
+To add maps
+```
+npm install react-native-maps --save
+#npm install react@16.0.0-alpha.12
+react-native link react-native-maps
+```
+- open xcode project file in the ‘reactNativeApp/ios’ dir
+- drag reactNativeApp/node_modules/react-native-maps/lib/ios/AirMaps to into xcode (reactNativeApp subfolder). choose copy and create groups.
+- add $(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps to header search paths
+- modify index.ios.app with MapView
+```
+react-native run-ios
+```
