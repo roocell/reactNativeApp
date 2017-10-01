@@ -14,17 +14,48 @@ import {
 } from 'react-native';
 
 export default class reactNativeApp extends Component {
+
+state = {
+    markers: []
+    }
+    
+    componentDidMount() {
+        console.log("compMount");
+        fetch('http://192.168.1.225:3001/markers')
+        .then( res => res.json() )
+        .then (function (res) {
+               console.log(res);
+               return res; // pass it onto the next .then
+               })
+        .then( markers => this.setState({markers}))
+        .catch(function (err) {
+               console.log(err);
+               return err;
+               });
+    }
+
   render() {
     return (
         <MapView
+            region={this.state.region}
+            onRegionChange={this.onRegionChange}
           style={{ left:0, right: 0, top:0, bottom: 0, position: 'absolute' }}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        />
+            latitude: 45.3421922,
+            longitude: -75.7683456,
+            latitudeDelta: 0.007,
+            longitudeDelta: 0.007,
+            }}
+        >
+            <MapView.Marker coordinate={{ latitude: 45.3421922, longitude: -75.7683456 }}/>
+            {this.state.markers.map(marker => (
+                 <MapView.Marker
+                   coordinate={{ latitude: marker.lat, longitude: marker.lng }}
+                   title={ marker.title }
+                   key={ marker.title}
+                 />
+            ))}
+        </MapView>
     );
   }
 }
