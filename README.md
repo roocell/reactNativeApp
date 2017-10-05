@@ -11,6 +11,11 @@ react-native run-ios
 ```
 NOTE: if you get red screen (could not connect) it’s probably because the packager is still building. just refresh (cmd-R) when the packager is done
 
+NOTE: if you want to debug without using the xcode console (for JS debugging)
+      CMD-CTRL-Z to 'shake device'
+      Select "Remote JS Debugging'
+      CMD-OPT-J to open chrome JS console
+
 The following is just for educational purposes
 Instructions to re-create this from scratch
 following instruction here (somewhat) except for the coapods for google maps
@@ -35,3 +40,6 @@ react-native link react-native-maps
 ```
 react-native run-ios
 ```
+
+To install redux
+npm install --save redux react-redux
