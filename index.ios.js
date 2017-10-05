@@ -46,7 +46,7 @@ const marker_reducer = (colour = 'red', action) => {
 
 // holds the application current state object
 // for now it's just holding the colour of the pins
-const store = createStore(marker_reducer)
+const store = createStore(marker_reducer);
 
 // our new Map react component (ie - a function)
 // we need to create our own because we're putting redux magic on top
@@ -68,23 +68,51 @@ const MapPresentationComponent = ( {
        }}
        >
        <MapView.Marker coordinate={{ latitude: 45.3421922, longitude: -75.7683456 }}/>
-       {markers.map(marker => (
-                                          <MapView.Marker
-                                          coordinate={{ latitude: marker.lat, longitude: marker.lng }}
-                                          title={ marker.title }
-                                          key={ marker.title}
-                                          onPress={pinToggle}
-                                          pinColor = {value}
-                                          />
-                                          ))}
+        {markers.map(marker => (
+            <MapView.Marker
+            coordinate={{ latitude: marker.lat, longitude: marker.lng }}
+            title={ marker.title }
+            key={ marker.title}
+            onPress={pinToggle}
+            pinColor = {value}
+            />
+          ))}
        </MapView>
 );
 
+// The container component is auto-generated using the 'connect' function from react-redux
+// inside the generated code it will subscribe the render function inside the component
+// it will also get the redux state object from the react context
 
-const myRender = () => {
-    console.log("myRender");
+// actions should be defined as function (for reuse by other components)
+const pinColorToggleAction = () => ({
+  type: 'ACTION_TOGGLE_PIN_COLOUR'
+});
+
+// in order to generate the code we have to define the how the state gets mapped to props for the component
+// and also tell the component what actions to dispatch
+const mapStateToProps = (state, containerProps) => { // container props is always second arg
+  return {
+     markers: containerProps.markers,
+     value: state
+  };
 }
-store.subscribe (myRender);
+const mapDispatchToProps = (dispatch, containerProps) => {
+  return  {
+    pinToggle: () => {
+      dispatch(pinColorToggleAction())
+    }
+  };
+}
+const MapContainerComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MapPresentationComponent)
+
+// something wrong with passing markers through here?
+const AppContainer = (markers) => (
+  <MapContainerComponent markers = {markers}/>
+);
 
 export default class reactNativeApp extends Component {
 
@@ -109,17 +137,14 @@ state = {
 
   render() {
       console.log("rendering...");
+      // using the react-redux Provider component
+      // this provides implicit passing of redux store via react context
+      // so we don't have to pass the store down as a prop
       return (
-              <MapPresentationComponent
-              markers = {this.state.markers}
-              value = {store.getState()}
-              pinToggle={() =>
-              store.dispatch({
-                             type: "ACTION_TOGGLE_PIN_COLOUR"
-                             })
-              }
-              />
-              );
+          <Provider store = {store}>
+            <MapContainerComponent markers = {this.state.markers}/>
+          </Provider>
+      );
   }
 
 }
