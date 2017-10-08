@@ -11,6 +11,10 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux' // allows implicit passing of redux store via react context (video 25/26)
 import { connect } from 'react-redux' // generates containers for us (video 27)
 
+import AppReducer from './reducers/AppReducer';
+import AppWithNavigationContainer from './navigation/AppNavigator';
+
+
 // REDUX note:
 /* - write 'container' components to control the behavior of the presentational components.
      - behavior example: what to do for an onClick().
@@ -31,22 +35,6 @@ import {
   View
 } from 'react-native';
 
-// reducers are functions that create the new state for the redux store
-const marker_reducer = (colour = 'red', action) => {
-    console.log("reducer called " + action.type);
-    switch(action.type)
-    {
-        case 'ACTION_TOGGLE_PIN_COLOUR':
-            if (colour === 'red') return 'green';
-            else return 'red';
-        default:
-            return colour;
-    }
-}
-
-// holds the application current state object
-// for now it's just holding the colour of the pins
-const store = createStore(marker_reducer);
 
 // our new Map react component (ie - a function)
 // we need to create our own because we're putting redux magic on top
@@ -109,12 +97,12 @@ const MapContainerComponent = connect(
   mapDispatchToProps
 )(MapPresentationComponent)
 
-// something wrong with passing markers through here?
-const AppContainer = (markers) => (
-  <MapContainerComponent markers = {markers}/>
-);
 
 export default class reactNativeApp extends Component {
+
+  // holds the application current state object
+  // for now it's just holding the colour of the pins
+  store = createStore(AppReducer);
 
 state = {
     markers: []
@@ -141,13 +129,14 @@ state = {
       // this provides implicit passing of redux store via react context
       // so we don't have to pass the store down as a prop
       return (
-          <Provider store = {store}>
-            <MapContainerComponent markers = {this.state.markers}/>
+          <Provider store = {this.store}>
+            <AppWithNavigationContainer markers = {this.state.markers}/>
           </Provider>
       );
   }
 
 }
+
 
 const styles = StyleSheet.create({
   container: {
