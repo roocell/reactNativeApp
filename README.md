@@ -41,5 +41,3 @@ react-native link react-native-maps
 react-native run-ios
 ```
 
-To install redux
-npm install --save redux react-redux
