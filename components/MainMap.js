@@ -5,7 +5,8 @@ import MapView from 'react-native-maps';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 
 // REDUX note:
@@ -29,6 +30,7 @@ import {
 const MapPresentationComponent = ( {
  markers,
  pinColor,
+ navigation,
  pinToggle,
 }) => (
        <MapView
@@ -50,7 +52,13 @@ const MapPresentationComponent = ( {
             pinColor = {pinColor}
             />
           ))}
+          <Button
+            onPress={() => navigation.navigate('DrawerToggle')}
+            title='drawer'
+          />
        </MapView>
+
+
 );
 
 // The container component is auto-generated using the 'connect' function from react-redux
@@ -67,9 +75,9 @@ const pinColorToggleAction = () => ({
 const mapStateToProps = (state, containerProps) => { // container props is always second arg
   console.log("rending map " + state.markers.pinColor);
   return {
-    // navigation prop is containerProps.navigation
      markers: containerProps.screenProps.markers,
-     pinColor: state.markers.pinColor
+     pinColor: state.markers.pinColor,
+     navigation: containerProps.navigation
   };
 }
 const mapDispatchToProps = (dispatch, containerProps) => {

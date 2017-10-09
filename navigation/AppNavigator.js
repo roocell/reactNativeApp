@@ -4,15 +4,34 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
 import LoginScreen from '../components/LoginScreen';
-import MainScreen from '../components/MainScreen';
-import ProfileScreen from '../components/ProfileScreen';
+import MainDrawerNavigator from '../navigation/MainDrawerNavigator';
 
-import MainMap from '../components/MainMap';
+//import MainMap from '../components/MainMap';
+
+// notes for react-navigation with redux integration
+// https://reactnavigation.org/docs/guides/redux
 
 export const AppNavigator = StackNavigator({
-  Login: { screen: LoginScreen },
-  Main: { screen: MainMap },
-  Profile: { screen: ProfileScreen },
+  // the Top Level DrawerNavigator
+  // which has a default StackNavigator inside
+  // and all drawer links are also StackNavigators
+  Main: {
+    screen: MainDrawerNavigator,
+    navigationOptions: ({navigation}) => ({
+      header: null,
+    }),
+  },
+
+
+  // a screen to appear over everything to have the user log in
+  Login: {
+    screen: LoginScreen,
+
+    // or navigationOptions can be set in the object itself.
+    navigationOptions: ({navigation}) => ({
+      title: "login"
+    }),
+   },
 });
 
 const AppWithNavigationContainer = ({ dispatch, nav, markers }) => (

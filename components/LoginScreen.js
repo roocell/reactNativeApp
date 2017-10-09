@@ -22,7 +22,7 @@ const LoginScreen = ({ navigation }) => (
       Screen A
     </Text>
     <Text style={styles.instructions}>
-      This is great
+      Press button to log in
     </Text>
     <Button
       onPress={() => navigation.dispatch({ type: 'Login' })}
@@ -37,6 +37,7 @@ LoginScreen.propTypes = {
 
 LoginScreen.navigationOptions = {
   title: 'Log In',
+  headerLeft: null // no back button for login screen
 };
 
 export default LoginScreen;
