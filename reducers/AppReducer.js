@@ -51,13 +51,16 @@ function auth(state = initialAuthState, action) {
 }
 
 // reducers are functions that create the new state for the redux store
-const marker = (state = 'red', action) => {
-    console.log("marker reducer called " + action.type);
+// each reducer fucntion  get passed it's part of the state
+// ie - markers() will get passed state.markers
+// so when the components need to access the state be sure to use 'state.markers.pinColor'
+const markers = (state = { pinColor: 'red' }, action) => {
+    console.log("marker reducer called " + action.type + " pinColor " + state.pinColor);
     switch(action.type)
     {
         case 'ACTION_TOGGLE_PIN_COLOUR':
-            if (state === 'red') return 'green';
-            else return 'red';
+            if (state.pinColor === 'red') return { ...state, pinColor: 'green' };
+            else return { ...state, pinColor: 'red' };
         default:
             return state;
     }
@@ -67,7 +70,7 @@ const marker = (state = 'red', action) => {
 const AppReducer = combineReducers({
   nav,
   auth,
-  marker,
+  markers,
 });
 
 export default AppReducer;
