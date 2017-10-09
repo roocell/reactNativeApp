@@ -8,7 +8,7 @@ const DrawerAction = NavigationActions.init()
 const DrawerState = AppNavigator.router.getStateForAction(DrawerAction)
 const LoginAction = NavigationActions.navigate({routeName: 'Login'})
 const initialNavState = AppNavigator.router.getStateForAction(
-  LoginAction,
+  //LoginAction, // remove login screen for now
   DrawerState
 );
 

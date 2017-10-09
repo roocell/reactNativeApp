@@ -8,6 +8,7 @@ import {
   View,
   Button
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // REDUX note:
 /* - write 'container' components to control the behavior of the presentational components.
@@ -34,6 +35,7 @@ const MapPresentationComponent = ( {
  pinToggle,
 }) => (
        <MapView
+       backgroundColor="transparent" // otherwise the drawer icon is grey
        style={{ left:0, right: 0, top:0, bottom: 0, position: 'absolute' }}
        initialRegion={{
        latitude: 45.3421922,
@@ -52,10 +54,15 @@ const MapPresentationComponent = ( {
             pinColor = {pinColor}
             />
           ))}
-          <Button
+
+          <Icon
+            name="reorder-horizontal"
+            size={30}
+            color="white"
+            style={{ left:10, top:25, position: 'absolute' }}
             onPress={() => navigation.navigate('DrawerToggle')}
-            title='drawer'
           />
+
        </MapView>
 
 
