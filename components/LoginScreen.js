@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
@@ -20,12 +20,43 @@ const styles = StyleSheet.create({
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
-  AccessToken
+  AccessToken,
+  LoginManager,
+  GraphRequest,
+  GraphRequestManager,
+
 } = FBSDK;
 
 // https://github.com/facebook/react-native-fbsdk
-var FBLogin = React.createClass({
-  render: function() {
+
+
+
+class FBLogin extends Component {
+
+  _responseInfoCallback(error, result) {
+    if (error) {
+      alert('Error fetching data: ' + error.toString());
+    } else {
+      //alert('Success fetching data: ' + result.name);
+
+      fetch("http://192.168.1.225:3001/users",
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify({action: "register", userid: result.id})
+      })
+      .then(res => res.json())
+      .then( function(res) {
+        alert(JSON.stringify(res));
+        return res;
+      })
+    }
+  }
+
+  render() {
     return (
       <View>
         <LoginButton
@@ -39,17 +70,33 @@ var FBLogin = React.createClass({
               } else {
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
-                    alert(data.accessToken.toString())
+                    //alert(data.accessToken.toString())
+
+                    // Create a graph request asking for user information with a callback to handle the response.
+                    const infoRequest = new GraphRequest(
+                      '/me',
+                      null,
+                      this._responseInfoCallback,
+                    );
+                    // Start the graph request.
+                    new GraphRequestManager().addRequest(infoRequest).start();
                   }
                 )
               }
             }
           }
-          onLogoutFinished={() => alert("logout.")}/>
+          onLogoutFinished={() => {
+            //alert("logout.")
+          }}/>
       </View>
     );
   }
-});
+
+
+
+};
+
+
 
 const LoginScreen = ({ navigation }) => (
   <View style={styles.container}>
