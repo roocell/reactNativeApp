@@ -27,11 +27,42 @@ export default class reactNativeApp extends Component {
   store = createStore(AppReducer);
 
 state = {
-    markers: []
+    markers: [],
+    users: [],
+
+
+      loading: false,
+      data: [],
+      page: 1,
+      seed: 1,
+      error: null,
+      refreshing: false,
     }
+
+    makeRemoteRequest = () => {
+        const { page, seed } = this.state;
+        const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+        this.setState({ loading: true });
+        fetch(url)
+          .then(res => res.json())
+          .then(res => {
+            this.setState({
+              data: page === 1 ? res.results : [...this.state.data, ...res.results],
+              error: res.error || null,
+              loading: false,
+              refreshing: false
+            });
+          })
+          .catch(error => {
+            this.setState({ error, loading: false });
+          });
+      };
 
     componentDidMount() {
         console.log("compMount");
+
+        this.makeRemoteRequest();
+
         fetch('http://192.168.1.225:3001/markers')
         .then( res => res.json() )
         .then (function (res) {
@@ -43,6 +74,18 @@ state = {
                console.log(err);
                return err;
                });
+
+       fetch('http://192.168.1.225:3001/users')
+       .then( res => res.json() )
+       .then (function (res) {
+              console.log(res);
+              return res; // pass it onto the next .then
+              })
+       .then( users => this.setState({users}))
+       .catch(function (err) {
+              console.log(err);
+              return err;
+              });
     }
 
   render() {
@@ -52,7 +95,7 @@ state = {
       // so we don't have to pass the store down as a prop
       return (
           <Provider store = {this.store}>
-            <AppWithNavigationContainer markers = {this.state.markers}/>
+            <AppWithNavigationContainer markers = {this.state.markers} users = {this.state.data}/>
           </Provider>
       );
   }

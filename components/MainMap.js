@@ -38,10 +38,10 @@ const MapPresentationComponent = ( {
        backgroundColor="transparent" // otherwise the drawer icon is grey
        style={{ left:0, right: 0, top:0, bottom: 0, position: 'absolute' }}
        initialRegion={{
-       latitude: 45.3421922,
-       longitude: -75.7683456,
-       latitudeDelta: 0.007,
-       longitudeDelta: 0.007,
+         latitude: 45.3421922,
+         longitude: -75.7683456,
+         latitudeDelta: 0.007,
+         longitudeDelta: 0.007,
        }}
        >
        <MapView.Marker coordinate={{ latitude: 45.3421922, longitude: -75.7683456 }}/>
