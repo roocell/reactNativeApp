@@ -13,15 +13,15 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const MainDrawerNavigator = DrawerNavigator({
 
   // comment this out to remove the map
-  // MainStackNavigator: {
-  //   screen: MainStackNavigator,
-  //   navigationOptions: ({navigation}) => ({
-  //     drawerLabel: 'Map',
-  //     drawerIcon: () => (
-  //       <Icon name="earth" size={20} color="black"  />
-  //     ),
-  //   }),
-  // },
+  MainStackNavigator: {
+    screen: MainStackNavigator,
+    navigationOptions: ({navigation}) => ({
+      drawerLabel: 'Map',
+      drawerIcon: () => (
+        <Icon name="earth" size={20} color="black"  />
+      ),
+    }),
+  },
 
   SecondStackNavigator: {
     screen: SecondStackNavigator,
@@ -44,7 +44,7 @@ const MainDrawerNavigator = DrawerNavigator({
   },
 
 }, {
-  // can speed up testing by changing this
+  // can speed up testing by changing this (not using the Map as the initial route makes it faster)
   initialRouteName: 'UserListNavigator',
   //headerMode: 'screen'
 });

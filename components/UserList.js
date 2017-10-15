@@ -13,6 +13,7 @@ import {
 // https://github.com/react-native-training/react-native-elements
 // List & ListItem make the cells pretty
 import { List, ListItem } from "react-native-elements";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 // FlatList
@@ -26,15 +27,6 @@ import { List, ListItem } from "react-native-elements";
 // Flex Dimensions
 // https://facebook.github.io/react-native/docs/height-and-width.html
 
-// <FlatList
-//   data={[{key: 'a'}, {key: 'b'}]}
-//   renderItem={({item}) => (
-//          <ListItem
-//              title={item.key}
-//          />
-//   )}
-// />
-
 
 export const UserListRender = ( {
   users,
@@ -45,11 +37,20 @@ export const UserListRender = ( {
     data={users}
     renderItem={({item}) => (
            <ListItem
-               title={item.name.first}
+               title={item.userid}
            />
     )}
-    keyExtractor={item => item.email}
+    keyExtractor={item => item.id}
   />
+
+  <Icon
+    name="reorder-horizontal"
+    size={30}
+    color="white"
+    style={{ left:10, top:25, position: 'absolute' }}
+    onPress={() => navigation.navigate('DrawerToggle')}
+  />
+
   </List>
 );
 
@@ -59,7 +60,7 @@ const mapStateToProps = (state, containerProps) => {
   console.log(containerProps.screenProps.users.length+" users");
   return {
     users: containerProps.screenProps.users,
-    navigation: containerProps.navigation
+    navigation: containerProps.navigation  // navigation is passed as a prop so we can activate the drawer
   }
 };
 // const mapDispatchToProps = (dispatch, containerProps) => {
