@@ -10,25 +10,17 @@ import {
 } from 'react-native';
 
 //https://egghead.io/lessons/javascript-redux-generating-containers-with-connect-from-react-redux-visibletodolist
-import { createStore } from 'redux'
 import { Provider } from 'react-redux' // allows implicit passing of redux store via react context (video 25/26)
-import { connect } from 'react-redux' // generates containers for us (video 27)
 
-import AppReducer from './reducers/AppReducer';
 import AppWithNavigationContainer from './navigation/AppNavigator';
-
-
-
+import configureStore from './reducers/configureStore'
 
 export default class reactNativeApp extends Component {
 
-  // holds the application current state object
-  // for now it's just holding the colour of the pins
-  store = createStore(AppReducer);
+  store = configureStore();
 
 state = {
     markers: [],
-    users: [],
 
     }
 
@@ -49,17 +41,6 @@ state = {
                return err;
                });
 
-       fetch('http://192.168.1.225:3001/users')
-       .then( res => res.json() )
-       .then (function (res) {
-              console.log(res);
-              return res; // pass it onto the next .then
-              })
-       .then( users => this.setState({users}))
-       .catch(function (err) {
-              console.log(err);
-              return err;
-              });
     }
 
   render() {
@@ -69,7 +50,7 @@ state = {
       // so we don't have to pass the store down as a prop
       return (
           <Provider store = {this.store}>
-            <AppWithNavigationContainer markers = {this.state.markers} users = {this.state.users}/>
+            <AppWithNavigationContainer markers = {this.state.markers} />
           </Provider>
       );
   }

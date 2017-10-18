@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { registerUser } from '../actions/UserActions'
 
 const styles = StyleSheet.create({
   container: {
@@ -33,26 +34,22 @@ const {
 
 class FBLogin extends Component {
 
+  constructor(props)
+  {
+    super(props);
+    // have to bind the fucntion to the Component otherwise this will be undefined.
+    this._responseInfoCallback = this._responseInfoCallback.bind(this);
+  }
+
   _responseInfoCallback(error, result) {
     if (error) {
       alert('Error fetching data: ' + error.toString());
     } else {
       //alert('Success fetching data: ' + result.name);
 
-      fetch("http://192.168.1.225:3001/users",
-      {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify({action: "register", userid: result.id})
-      })
-      .then(res => res.json())
-      .then( function(res) {
-        alert(JSON.stringify(res));
-        return res;
-      })
+      // dispatch our register action
+      this.props.navigation.dispatch(registerUser({action: "register", userid: result.id}));
+
     }
   }
 
@@ -103,7 +100,7 @@ const LoginScreen = ({ navigation }) => (
     <Text style={styles.welcome}>
       Screen A
     </Text>
-    <FBLogin />
+    <FBLogin navigation = { navigation }/>
     <Text style={styles.instructions}>
       Press button to log in
     </Text>

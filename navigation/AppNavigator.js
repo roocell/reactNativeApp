@@ -37,11 +37,11 @@ export const AppNavigator = StackNavigator({
 // this might be better than screenProps
 // https://stackoverflow.com/questions/44248403/passing-props-with-screen-option-in-drawernavigator
 
-const AppWithNavigationContainer = ({ dispatch, nav, markers, users }) => (
+const AppWithNavigationContainer = ({ dispatch, nav, markers }) => (
   <AppNavigator
     navigation={addNavigationHelpers({ dispatch, state: nav })}
     // this is how you pass custom props through the navigator to the screens
-    screenProps={ {markers: markers, users:users} }
+    screenProps={ {markers: markers} }
     />
 );
 
@@ -54,7 +54,6 @@ AppWithNavigationContainer.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   nav: state.nav,
   markers: ownProps.markers,
-  users: ownProps.users
 });
 
 export default connect(mapStateToProps)(AppWithNavigationContainer);

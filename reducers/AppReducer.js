@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { NavigationActions } from 'react-navigation';
 
 import { AppNavigator } from '../navigation/AppNavigator';
+import UserReducer from './UserReducer'
 
 const DrawerAction = NavigationActions.init()
 const DrawerState = AppNavigator.router.getStateForAction(DrawerAction)
@@ -76,7 +77,8 @@ const markers = (state = { pinColor: 'red' }, action) => {
 const AppReducer = combineReducers({
   nav,
   auth,
-  markers,
+  markers,              // if no key set here. then the key is the same. so state.markers
+  user: UserReducer,    // the key here 'user' is the state member. so state.user
 });
 
 export default AppReducer;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'; // generates containers for us (video 27)
 import MapView from 'react-native-maps';
 import {
   StyleSheet,

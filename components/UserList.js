@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
@@ -9,6 +9,7 @@ import {
   Button,
   FlatList,
 } from 'react-native';
+import { fetchUsers } from '../actions/UserActions'
 
 // https://github.com/react-native-training/react-native-elements
 // List & ListItem make the cells pretty
@@ -54,15 +55,31 @@ export const UserListRender = ( {
   </List>
 );
 
+// we're going to define our presentation component a little different Here
+// we'll define a wrapper container which will let us access the lifecycle methods
+// so we can access the componentDidMount() to dispatch an action
+// like here https://github.com/JamieDixon/react-lifecycle-component
+class UserListRenderWrapper extends Component {
+	componentDidMount() {
+		this.props.dispatch(fetchUsers());
+	}
+	render() {
+    return (<UserListRender {...this.props} />);
+	}
+}
+
+// nice little exmplanation of container components, presentation components, etc
+// https://stackoverflow.com/questions/40352310/how-do-you-mix-componentdidmount-with-react-redux-connect
 
 
 const mapStateToProps = (state, containerProps) => {
-  console.log(containerProps.screenProps.users.length+" users");
   return {
-    users: containerProps.screenProps.users,
+    users: state.user.userList.users,
     navigation: containerProps.navigation  // navigation is passed as a prop so we can activate the drawer
   }
 };
+
+// This will be implemented when we do something like pull-to-refresh
 // const mapDispatchToProps = (dispatch, containerProps) => {
 //   return  {
 //      dispatch: null
@@ -74,11 +91,10 @@ const mapStateToProps = (state, containerProps) => {
 const UserList = connect(
   mapStateToProps,
   null
-)(UserListRender);
+)(UserListRenderWrapper);
 
 const styles = StyleSheet.create({
 
 });
-
 
 export default UserList;
