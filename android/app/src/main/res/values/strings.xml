@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">reactNativeApp</string>
+    <string name="facebook_app_id">2010316282588715</string>
+
 </resources>
