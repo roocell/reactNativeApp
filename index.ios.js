@@ -14,6 +14,7 @@ import { Provider } from 'react-redux' // allows implicit passing of redux store
 
 import AppWithNavigationContainer from './navigation/AppNavigator';
 import configureStore from './reducers/configureStore'
+import { API_URL } from './config.js'
 
 export default class reactNativeApp extends Component {
 
@@ -29,7 +30,7 @@ state = {
     componentDidMount() {
         console.log("compMount");
 
-        fetch('http://192.168.1.225:3001/markers')
+        fetch(API_URL+'/markes')
         .then( res => res.json() )
         .then (function (res) {
                console.log(res);

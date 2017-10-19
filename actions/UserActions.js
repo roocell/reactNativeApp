@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import { API_URL } from '../config.js'
 
 export const FETCH_USERS = 'FETCH_USERS';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
@@ -11,7 +12,7 @@ export const REGISTER_USER_FAILURE = 'REGISTER_USER_SUCCESS';
 export const fetchUsers = () => ({
   [CALL_API]: {
     types: [FETCH_USERS, FETCH_USERS_SUCCESS, FETCH_USERS_FAILURE],
-    endpoint: 'http://192.168.1.225:3001/users',
+    endpoint: API_URL+'/users',
     method: 'GET',
   }
 });
@@ -20,7 +21,7 @@ export const fetchUsers = () => ({
 export const registerUser = (data) => ({
   [CALL_API]: {
     types: [REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE],
-    endpoint: 'http://192.168.1.225:3001/users',
+    endpoint: API_URL+'/users',
     method: 'POST',
     headers: {
       'Accept': 'application/json',
