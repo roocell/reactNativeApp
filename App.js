@@ -30,7 +30,7 @@ state = {
     componentDidMount() {
         console.log("compMount");
 
-        fetch(API_URL+'/markes')
+        fetch(API_URL+'/markers')
         .then( res => res.json() )
         .then (function (res) {
                console.log(res);
