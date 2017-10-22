@@ -5,11 +5,12 @@ import {
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
+  //TOKEN_RXD_ACTION,
 } from '../actions/UserActions';
 
 const INITIAL_STATE = { userList: { users: [], error: null, loading: false } };
 
-export default function(state = INITIAL_STATE, action) {
+export function UserReducer(state = INITIAL_STATE, action) {
   let error;
   console.log("UserReducer "+ action.type);
   console.log(action.payload);
@@ -31,3 +32,14 @@ export default function(state = INITIAL_STATE, action) {
     return state;
   }
 }
+
+// export function NotificationTokenReducer (state = {notificationToken: null}, action) {
+//     switch(action.type)
+//     {
+//       case TOKEN_RXD_ACTION:
+//         // save token into store for later
+//         return { ...state, notificationToken: action.token};
+//       default:
+//         return state;
+//     }
+// }

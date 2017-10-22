@@ -20,7 +20,7 @@ export default class App extends Component {
 
   store = configureStore();
 
-state = {
+  state = {
     markers: [],
 
     }
@@ -45,13 +45,13 @@ state = {
     }
 
   render() {
-      console.log("rendering...");
+      console.log("App rendering... notiftoken = " + this.props.notiftoken);
       // using the react-redux Provider component
       // this provides implicit passing of redux store via react context
       // so we don't have to pass the store down as a prop
       return (
           <Provider store = {this.store}>
-            <AppWithNavigationContainer markers = {this.state.markers} />
+            <AppWithNavigationContainer markers = {this.state.markers} notiftoken = {this.props.notiftoken}/>
           </Provider>
       );
   }

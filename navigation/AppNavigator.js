@@ -37,11 +37,11 @@ export const AppNavigator = StackNavigator({
 // this might be better than screenProps
 // https://stackoverflow.com/questions/44248403/passing-props-with-screen-option-in-drawernavigator
 
-const AppWithNavigationContainer = ({ dispatch, nav, markers }) => (
+const AppWithNavigationContainer = ({ dispatch, nav, markers, notiftoken }) => (
   <AppNavigator
     navigation={addNavigationHelpers({ dispatch, state: nav })}
     // this is how you pass custom props through the navigator to the screens
-    screenProps={ {markers: markers} }
+    screenProps={ {markers: markers, notiftoken: notiftoken} }
     />
 );
 

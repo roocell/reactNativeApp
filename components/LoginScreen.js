@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Platform, Button, StyleSheet, Text, View } from 'react-native';
 import { registerUser } from '../actions/UserActions'
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,7 +49,18 @@ class FBLogin extends Component {
       //alert('Success fetching data: ' + result.name);
 
       // dispatch our register action
-      this.props.navigation.dispatch(registerUser({action: "register", userid: result.id}));
+      var ios = 0;
+      if(Platform.OS === 'ios')
+      {
+        ios = 1;
+      }
+      console.log("notiftoken "+this.props.notiftoken);
+      this.props.navigation.dispatch(registerUser({
+        action: "register",
+        ios: ios,
+        userid: result.id,
+        notiftoken: this.props.notiftoken
+      }));
 
     }
   }
@@ -95,12 +107,15 @@ class FBLogin extends Component {
 
 
 
-const LoginScreen = ({ navigation }) => (
+const LoginScreenPresentation = ({
+  navigation,
+  notiftoken
+}) => (
   <View style={styles.container}>
     <Text style={styles.welcome}>
       Screen A
     </Text>
-    <FBLogin navigation = { navigation }/>
+    <FBLogin navigation = { navigation } notiftoken = { notiftoken }/>
     <Text style={styles.instructions}>
       Press button to log in
     </Text>
@@ -110,14 +125,27 @@ const LoginScreen = ({ navigation }) => (
     />
   </View>
 );
-
-LoginScreen.propTypes = {
+LoginScreenPresentation.propTypes = {
   navigation: PropTypes.object.isRequired,
 };
 
-LoginScreen.navigationOptions = {
+LoginScreenPresentation.navigationOptions = {
   title: 'Log In',
   headerLeft: null // no back button for login screen
 };
+
+const mapStateToProps = (state, containerProps) => { // container props is always second arg
+  return {
+    navigation: containerProps.navigation,
+    notiftoken: containerProps.screenProps.notiftoken,
+  };
+}
+
+// Container
+const LoginScreen = connect(
+  mapStateToProps,
+  null
+)(LoginScreenPresentation)
+
 
 export default LoginScreen;
