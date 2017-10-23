@@ -9,7 +9,7 @@ import {
   Button,
   FlatList,
 } from 'react-native';
-import { fetchUsers } from '../actions/UserActions'
+import { fetchUsers, pingUserAction } from '../actions/UserActions'
 
 // https://github.com/react-native-training/react-native-elements
 // List & ListItem make the cells pretty
@@ -29,9 +29,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // https://facebook.github.io/react-native/docs/height-and-width.html
 
 
+// FlatList and PureComponent - for perf optimization and avoiding bugs.
+// https://facebook.github.io/react-native/docs/flatlist.html
+
+
 export const UserListRender = ( {
   users,
-  navigation
+  navigation,
+  pingUser
 }) => (
   <List style={{flex: 1}}>
   <FlatList
@@ -39,6 +44,8 @@ export const UserListRender = ( {
     renderItem={({item}) => (
            <ListItem
                title={item.userid}
+               onPress={() => {pingUser(item.userid)}}
+               hideChevron = {true}
            />
     )}
     keyExtractor={item => item.id}
@@ -61,7 +68,7 @@ export const UserListRender = ( {
 // like here https://github.com/JamieDixon/react-lifecycle-component
 class UserListRenderWrapper extends Component {
 	componentDidMount() {
-		this.props.dispatch(fetchUsers());
+		this.props.fetchUsers();
 	}
 	render() {
     return (<UserListRender {...this.props} />);
@@ -71,7 +78,6 @@ class UserListRenderWrapper extends Component {
 // nice little exmplanation of container components, presentation components, etc
 // https://stackoverflow.com/questions/40352310/how-do-you-mix-componentdidmount-with-react-redux-connect
 
-
 const mapStateToProps = (state, containerProps) => {
   return {
     users: state.user.userList.users,
@@ -80,17 +86,21 @@ const mapStateToProps = (state, containerProps) => {
 };
 
 // This will be implemented when we do something like pull-to-refresh
-// const mapDispatchToProps = (dispatch, containerProps) => {
-//   return  {
-//      dispatch: null
-//     }
-//   };
-// };
+const mapDispatchToProps = (dispatch, containerProps) => {
+  return  {
+    pingUser: (dest_userid) => {
+      dispatch(pingUserAction(dest_userid))
+    },
+    fetchUsers: () => {
+      dispatch(fetchUsers())
+    }
+  };
+};
 
 // Container
 const UserList = connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(UserListRenderWrapper);
 
 const styles = StyleSheet.create({

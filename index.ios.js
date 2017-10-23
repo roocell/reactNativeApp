@@ -32,10 +32,13 @@ export default class reactNativeApp extends Component {
 
 
 		NotificationsIOS.requestPermissions();
+    NotificationsIOS.consumeBackgroundQueue();
 	}
 
   onNotificationReceivedForeground(notification) {
   	console.log("Notification Received - Foreground", notification);
+    if (notification._type) // this will avoid the empty one thats showing up at the start.
+      alert(JSON.stringify(notification));
   }
 
   onNotificationReceivedBackground(notification) {
