@@ -71,7 +71,10 @@ export default class reactNativeApp extends Component {
 		//   code: 3010,
 		//   localizedDescription: 'remote notifications are not supported in the simulator'
 		// }
-		console.error(error);
+
+    // that's ok still want to run simulator though
+    //if (error.code == 3010)
+    //  alert(error.localizedDescription);
 	}
 
 	componentWillUnmount() {
