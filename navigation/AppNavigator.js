@@ -41,7 +41,7 @@ const AppWithNavigationContainer = ({ dispatch, nav, notiftoken }) => (
   <AppNavigator
     navigation={addNavigationHelpers({ dispatch, state: nav })}
     // this is how you pass custom props through the navigator to the screens
-    screenProps={  notiftoken: notiftoken} }
+    screenProps={ {notiftoken: notiftoken} }
     />
 );
 
