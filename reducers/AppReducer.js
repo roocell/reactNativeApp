@@ -1,7 +1,7 @@
 
 import { combineReducers } from 'redux';
 import { NavigationActions } from 'react-navigation';
-
+import { markers } from '../components/MainMap';
 import { AppNavigator } from '../navigation/AppNavigator';
 import UserReducer from './UserReducer'
 
@@ -61,7 +61,7 @@ function auth(state = initialAuthState, action) {
 // each reducer fucntion  get passed it's part of the state
 // ie - markers() will get passed state.markers
 // so when the components need to access the state be sure to use 'state.markers.pinColor'
-const markers = (state = { pinColor: 'red' }, action) => {
+const markers = (state = { pinColor: markers.color }, action) => {
     console.log("marker reducer called " + action.type + " pinColor " + state.pinColor);
     switch(action.type)
     {

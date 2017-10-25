@@ -80,10 +80,10 @@ const pinColorToggleAction = () => ({
 // in order to generate the code we have to define the how the state gets mapped to props for the component
 // and also tell the component what actions to dispatch
 const mapStateToProps = (state, containerProps) => { // container props is always second arg
-  console.log("rending map " + state.markers.pinColor);
+  console.log("rending map " + state.markers.color);
   return {
      markers: containerProps.screenProps.markers,
-     pinColor: state.markers.pinColor,
+     pinColor: state.pinColor,
      navigation: containerProps.navigation
   };
 }
