@@ -32,6 +32,13 @@ import { List, ListItem } from "react-native-elements";
 // https://facebook.github.io/react-native/docs/flatlist.html
 
 
+// https://stackoverflow.com/questions/37609644/setstate-cannot-update-during-an-state-transition-react
+// NOTE on using a reference to a function for onPress
+// ie - onPress={() => {pingUser(item.userid)}}
+// not - onPress = { pingUser(item.userid)}
+// the latter will actaully execute the fuction on the render()
+// as opposed to running when onPress actually happens
+
 export const UserListRender = ( {
   users,
   navigation,
