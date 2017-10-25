@@ -20,29 +20,6 @@ export default class App extends Component {
 
   store = configureStore();
 
-  state = {
-    markers: [],
-
-    }
-
-
-
-    componentDidMount() {
-        console.log("compMount");
-
-        fetch(API_URL+'/markers')
-        .then( res => res.json() )
-        .then (function (res) {
-               console.log(res);
-               return res; // pass it onto the next .then
-               })
-        .then( markers => this.setState({markers}))
-        .catch(function (err) {
-               console.log(err);
-               return err;
-               });
-
-    }
 
   render() {
       console.log("App rendering... notiftoken = " + this.props.notiftoken);
@@ -51,7 +28,7 @@ export default class App extends Component {
       // so we don't have to pass the store down as a prop
       return (
           <Provider store = {this.store}>
-            <AppWithNavigationContainer markers = {this.state.markers} notiftoken = {this.props.notiftoken}/>
+            <AppWithNavigationContainer notiftoken = {this.props.notiftoken}/>
           </Provider>
       );
   }

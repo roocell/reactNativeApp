@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'; // generates containers for us (video 27)
 import MapView from 'react-native-maps';
+import {TOGGLE_COLOR} from '../actions/MapActions'
 import {
   StyleSheet,
   Text,
@@ -9,6 +10,7 @@ import {
   Button
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {fetchMarkers} from '../actions/MapActions'
 
 // REDUX note:
 /* - write 'container' components to control the behavior of the presentational components.
@@ -28,9 +30,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // this is a 'dumb component' - ie - it only specifies how the current application
 // state transforms into renderable output
 // also referred to as a 'presentation component'
-const MapPresentationComponent = ( {
- markers,
- pinColor,
+
+
+//https://egghead.io/lessons/javascript-redux-generating-containers-with-connect-from-react-redux-visibletodolist
+
+
+//export default class App extends Component {
+export const MapPresentationComponent = ( {
+ pins,
  navigation,
  pinToggle,
 }) => (
@@ -45,13 +52,13 @@ const MapPresentationComponent = ( {
        }}
        >
        <MapView.Marker coordinate={{ latitude: 45.3421922, longitude: -75.7683456 }}/>
-        {markers.map(marker => (
+        {pins.map(marker => (
             <MapView.Marker
             coordinate={{ latitude: marker.lat, longitude: marker.lng }}
             title={ marker.title }
-            key={ marker.title}
-            onPress={pinToggle}
-            pinColor = {pinColor}
+            key={ marker.title }
+            onPress={() => {pinToggle(marker.id)}}
+            pinColor = {marker.color}
             />
           ))}
 
@@ -68,37 +75,51 @@ const MapPresentationComponent = ( {
 
 );
 
+class MapRenderWrapper extends Component{
+	componentDidMount() {
+		this.props.fetchMarkers();
+	}
+	render() {
+    return (<MapPresentationComponent {...this.props} />);
+	}
+}
+
+
 // The container component is auto-generated using the 'connect' function from react-redux
 // inside the generated code it will subscribe the render function inside the component
 // it will also get the redux state object from the react context
 
 // actions should be defined as function (for reuse by other components)
-const pinColorToggleAction = () => ({
-  type: 'ACTION_TOGGLE_PIN_COLOUR'
+const pinColorToggleAction = (pin) => ({
+  type: TOGGLE_COLOR,
+  pin_id: pin
 });
 
 // in order to generate the code we have to define the how the state gets mapped to props for the component
 // and also tell the component what actions to dispatch
 const mapStateToProps = (state, containerProps) => { // container props is always second arg
-  console.log("rending map " + state.markers.pinColor);
+
   return {
-     markers: containerProps.screenProps.markers,
-     pinColor: state.markers.pinColor,
-     navigation: containerProps.navigation
+     pins: state.MapState.MapState.pins,
+     navigation: containerProps.navigation,
   };
 }
 const mapDispatchToProps = (dispatch, containerProps) => {
   return  {
-    pinToggle: () => {
-      dispatch(pinColorToggleAction())
-    }
-  };
+    pinToggle: (pin) => {
+      dispatch(pinColorToggleAction(pin))
+    },
+    fetchMarkers: () => {
+      dispatch(fetchMarkers())
+    },
+  }
 }
 // Container
 const MainMap = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(MapPresentationComponent)
+  mapDispatchToProps,
+
+)(MapRenderWrapper)
 
 const styles = StyleSheet.create({
   container: {

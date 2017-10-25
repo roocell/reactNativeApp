@@ -1,9 +1,10 @@
 
 import { combineReducers } from 'redux';
 import { NavigationActions } from 'react-navigation';
-
+import { markers } from '../components/MainMap';
 import { AppNavigator } from '../navigation/AppNavigator';
 import { UserReducer, NotificationTokenReducer} from './UserReducer'
+import MapReducer from './MapReducer'
 
 const DrawerAction = NavigationActions.init()
 const DrawerState = AppNavigator.router.getStateForAction(DrawerAction)
@@ -57,27 +58,12 @@ function auth(state = initialAuthState, action) {
   }
 }
 
-// reducers are functions that create the new state for the redux store
-// each reducer fucntion  get passed it's part of the state
-// ie - markers() will get passed state.markers
-// so when the components need to access the state be sure to use 'state.markers.pinColor'
-const markers = (state = { pinColor: 'red' }, action) => {
-    console.log("marker reducer called " + action.type + " pinColor " + state.pinColor);
-    switch(action.type)
-    {
-        case 'ACTION_TOGGLE_PIN_COLOUR':
-            if (state.pinColor === 'red') return { ...state, pinColor: 'green' };
-            else return { ...state, pinColor: 'red' };
-        default:
-            return state;
-    }
-}
 
 
 const AppReducer = combineReducers({
   nav,
   auth,
-  markers,              // if no key set here. then the key is the same. so state.markers
+  MapState: MapReducer,              // if no key set here. then the key is the same. so state.markers
   user: UserReducer,    // the key here 'user' is the state member. so state.user
   //notificationToken: NotificationTokenReducer,
 });
