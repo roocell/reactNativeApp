@@ -45,7 +45,7 @@ const MainDrawerNavigator = DrawerNavigator({
 
 }, {
   // can speed up testing by changing this (not using the Map as the initial route makes it faster)
-  initialRouteName: 'UserListNavigator',
+  initialRouteName: 'MainStackNavigator',
   //headerMode: 'screen'
 });
 
